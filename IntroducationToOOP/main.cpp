@@ -34,7 +34,16 @@ public:
 		return distance;
 	}
 };
+double distance(Point A, Point B)
+{
+	double x_distance = A.get_x() - B.get_x();
+	double y_distance = A.get_y() - B.get_y();
+	double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
+	return distance;
+
+}
 //#define STRUCT_POINT
+//#define DISTANCE_CHECK
 
 void main()
 {
@@ -53,6 +62,8 @@ void main()
 	Point* pA = &A;
 	cout << pA->x << "\t" << pA->y << endl;
 #endif // STRUCT_POINT
+#ifdef DISTANCE_CHECK
+
 
 	Point A;
 	A.set_x (2);
@@ -62,4 +73,10 @@ void main()
 	B.set_y(8);
 	cout << A.get_x() << "\t" << A.get_y() << endl;
 	cout << "Расстояние от точки А до точки В: " << A.distance(B) << endl;
+	cout << "Расстояние от точки B до точки A: " << B.distance(A) << endl;
+	cout << "Расстояние между точками А и В: " << distance(A, B) << endl;
+	cout << "Расстояние между точками B и A: " << distance(B, A) << endl;
+#endif // DISTANCE_CHECK
+
+
 }
