@@ -1,10 +1,13 @@
 //IntroducationToOOP
 #include <iostream>
 using namespace std;
+using std::cout;
+using std::endl;
+using std::cin;
+
 class Point // —одава€ структуру или класс, мы создаем новый тип данных
 	         // классы и структуры еще называют пользовательскими или составными типами данных
 {
-
 	double x;
 	double y;
 public:
@@ -24,14 +27,42 @@ public:
 	{
 		this->y = y;
 	}
+	//                          Constructors:
+	//Point()
+	//{
+	//	x = y = 0;
+	//	//RAII-Resourse Aqulisation-In Initialisation 
+	//	//    (выделение ресурсов -значит инициализаци€)
+	//	cout << "Constructor:\t" << this << endl;
+	//}
+	/*Point(double x)
+	{
+		this->x = x;
+		this->y = 0;
+		cout << "1ArgConstructor: " << this << endl;
+	}*/
+	Point(double x=0, double y=0)
+	{
+		this->x = x;
+		this ->y = y;
+		cout << "Constructor:\t" << this << endl;
+	}
+	~Point()
+	{
+		cout << "Distructor:\t" << this << endl;
+	}
 
 	//                          Methods:
-	double distance(Point other)
+	double distance(Point other) const
 	{
 		double x_distance = this->x - other.x;
 		double y_distance = this->y - other.y;
 		double distance = sqrt(x_distance * x_distance + y_distance * y_distance);
 		return distance;
+	}
+	void print()const
+	{
+		cout << "X= " << x << "\tY= " << y << endl;
 	}
 };
 double distance(Point A, Point B)
@@ -48,7 +79,6 @@ double distance(Point A, Point B)
 void main()
 {
 	setlocale (LC_ALL, "");
-
 
 #ifdef STRUCT_POINT
 	Point A;// объ€вление переменной 'A' типа Point
@@ -77,6 +107,13 @@ void main()
 	cout << "–ассто€ние между точками ј и ¬: " << distance(A, B) << endl;
 	cout << "–ассто€ние между точками B и A: " << distance(B, A) << endl;
 #endif // DISTANCE_CHECK
+
+	Point A;// Default constracter
+	//cout << A.get_x() << "\t" << A.get_y() << endl;
+	A.print();
+	Point B(2, 3);
+	B.print();
+	Point C = 4; //Single-Argument constructor
 
 
 }
