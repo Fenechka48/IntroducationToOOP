@@ -22,7 +22,7 @@ public:
 	{
 		return denominator;
 	}
-		void set_integer(int integer)
+	void set_integer(int integer)
 	{
 		this->integer = integer;
 	}
@@ -30,7 +30,7 @@ public:
 	{
 		this->numerator - numerator;
 	}
-		void set_denominator (int denominator)
+	void set_denominator(int denominator)
 	{
 		if (denominator == 0) denominator = 1;
 		this->denominator = denominator;
@@ -38,58 +38,97 @@ public:
 
 
 
-   //					Constructors:
-		/*Fraction()
-		{
-			integer = numerator = denominator = 0;
-			cout << "DefConstractor:\t " << this << endl;
-		}*/
+	//					Constructors:
+	Fraction()
+	{
+		this->integer = 0;
+		this->numerator = 0;
+		this->denominator = 1;
+		cout << "DefConstractor:\t " << this << endl;
+	}
+	Fraction(int integer)
+	{
+		this->integer = integer;
+		this->numerator = 0;
+		this->denominator = 1;
+		cout << "1ArgConstructor:\t " << this << endl;
+	}
+	Fraction(int numerator, int denominator)
+	{
+		this->integer = 0;
+		this->numerator = numerator;
+		this->set_denominator(denominator);
+		cout << "Constractor:\t\t" << this << endl;
+	}
+	Fraction(double integer, double numerator, double denominator)
+	{
+		this->integer = integer;
+		this->numerator = numerator;
+		this->set_denominator(denominator);
+		cout << "Constractor:\t " << this << endl;
+	}
+	Fraction(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "Copy_constractor:\t " << this << endl;
+	}
+	~Fraction()
+	{
+		cout << "Destructor:\t " << this << endl;
+	}
+	//         Methods
+	Fraction& to_proper()     // интегрирует целую часть в числитель
+	{
+		integer += numerator / denominator;
+		numerator %= denominator;
+		return *this;
+	}
 
-		Fraction(double integer = 0, double numerator = 0, double denominator = 0)
+	Fraction& to_improper()    //выделяет целую часть из числителя
+	{
+		numerator += integer * denominator;
+		integer = 0;
+		return *this;
+	}
+	void print()const
+	{
+		if (integer) cout << integer;
+		if (numerator)
 		{
-			this->integer = integer;
-			this->numerator = numerator;
-			this->set_denominator(denominator);
-			cout << "Constractor:\t " << this << endl;
+			if (integer) cout << "(";
+			cout << numerator << "/" << denominator;
+			if (integer)cout << ")";
 		}
-		Fraction(const Fraction& other)
-		{
-			this->integer = other.integer;
-			this->numerator = other.numerator;
-			this->set_denominator(denominator);
-			cout << "Copy_constractor:\t " << this << endl;
-		}
-		~Fraction()
-		{
-			/*this->integer = other.integer;
-			this->numerator = other.numerator;
-			this->denominator = other.denominator;*/
-			cout << "Destructor:\t " << this << endl;
-		}
-   //         Methods
-		void print()const
-		{
-			cout << "number: " << integer << "(" << numerator << "/" << denominator << ")" << endl;
-		}
-		 Fraction& to_proper()     // интегрирует целую часть в числитель
-		{
-			 if (integer > 0)
-			 {
-				 int buffer = 0;
-				 buffer = numerator + integer * denominator;
-				 numerator = buffer;
-				 return *this;
-			 }
-		}
+		else if (integer == 0) cout << 0;
+		cout << endl;
+	}
 
-		Fraction& to_improper()                  ////выделяет целую часть из числителя
-		{
 
-		}
-
+    
 };
+Fraction operator* (Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
 
+	/*Fraction result;
+	(
+		left.get_numerator() * right.get_numerator(),
+		left.get_denominator() * right.get_denominator()
+	);*/
+	/*result.set_numerator(left.get_numerator() * right.get_numerator());
+	result.set_denominator(left.get_denominator() * right.get_denominator());
+	return Fraction * / ;
+		Fraction result
+	(
+		left.get_numerator() * right.get_numerator(),
+		left.get_denominator() * right.get_denominator()
+	)
+}
 
+//#define CONSTRACTORS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -97,16 +136,25 @@ void main()
 	Fraction A;
 	A.print();
 	cout << A.get_integer() << "(" << A.get_numerator() << "/" << A.get_denominator() << ")" << endl;*/
+#ifdef CONSTRACTORS_CHECK
 
-	double integer ;
-	double numerator ;
-	double denumerator ;
-	//cout << "Введите целую часть: "; cin >> integer; cout << "Дробную часть: числитель дроби "; cin >> numerator; cout << "знаменатель"; cin >> denumerator;
-	Fraction B=5;
+	Fraction B = 5;
 	B.print();
-	Fraction C(0,1,2);
+	Fraction C(2, 3);
 	C.print();
 	Fraction D(2, 3, 4);
 	D.print();
+	Fraction E = D;
+	E.print();
+#endif // CONSTRACTORS_CHECK
 
+
+	Fraction A(2, 3, 4);
+	A.print();
+
+	Fraction B(3, 4, 5);
+	B.print();
+
+	Fraction C = A * B;
+	C.print();
 }
