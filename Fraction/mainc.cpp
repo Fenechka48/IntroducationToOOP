@@ -49,8 +49,15 @@ public:
 		{
 			this->integer = integer;
 			this->numerator = numerator;
-			this->denominator = denominator; 
+			this->set_denominator(denominator);
 			cout << "Constractor:\t " << this << endl;
+		}
+		Fraction(const Fraction& other)
+		{
+			this->integer = other.integer;
+			this->numerator = other.numerator;
+			this->set_denominator(denominator);
+			cout << "Copy_constractor:\t " << this << endl;
 		}
 		~Fraction()
 		{
@@ -64,11 +71,18 @@ public:
 		{
 			cout << "number: " << integer << "(" << numerator << "/" << denominator << ")" << endl;
 		}
-		Fraction& to_proper(Fraction other)    // интегрирует целую часть в числитель
+		 Fraction& to_proper()     // РёРЅС‚РµРіСЂРёСЂСѓРµС‚ С†РµР»СѓСЋ С‡Р°СЃС‚СЊ РІ С‡РёСЃР»РёС‚РµР»СЊ
 		{
-
+			 if (integer > 0)
+			 {
+				 int buffer = 0;
+				 buffer = numerator + integer * denominator;
+				 numerator = buffer;
+				 return *this;
+			 }
 		}
-		Fraction& to_improper()                  ////выделяет целую часть из числителя
+
+		Fraction& to_improper()                  ////РІС‹РґРµР»СЏРµС‚ С†РµР»СѓСЋ С‡Р°СЃС‚СЊ РёР· С‡РёСЃР»РёС‚РµР»СЏ
 		{
 
 		}
@@ -87,7 +101,7 @@ void main()
 	double integer ;
 	double numerator ;
 	double denumerator ;
-	//cout << "Введите целую часть: "; cin >> integer; cout << "Дробную часть: числитель дроби "; cin >> numerator; cout << "знаменатель"; cin >> denumerator;
+	//cout << "Р’РІРµРґРёС‚Рµ С†РµР»СѓСЋ С‡Р°СЃС‚СЊ: "; cin >> integer; cout << "Р”СЂРѕР±РЅСѓСЋ С‡Р°СЃС‚СЊ: С‡РёСЃР»РёС‚РµР»СЊ РґСЂРѕР±Рё "; cin >> numerator; cout << "Р·РЅР°РјРµРЅР°С‚РµР»СЊ"; cin >> denumerator;
 	Fraction B=5;
 	B.print();
 	Fraction C(0,1,2);
