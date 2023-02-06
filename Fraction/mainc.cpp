@@ -1,4 +1,5 @@
 //Fraction
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 using namespace std;
 using std::cin;
@@ -10,6 +11,7 @@ Fraction operator* (Fraction left, Fraction right);
 Fraction operator / (const Fraction& left, const Fraction& right);
 Fraction operator + (Fraction left, Fraction right);
 Fraction operator - (Fraction left, Fraction right);
+Fraction& reduse (Fraction left, Fraction right);
 
 class Fraction
 {
@@ -50,6 +52,14 @@ public:
 		this->denominator = 1;
 		cout << "DefConstractor:\t " << this << endl;
 	}
+	Fraction (double decimal)
+	{
+		this->integer = decimal;   // сохраним целую часть
+		decimal -= integer;          // убираем целую часть 
+		this->denominator = 1e+9;
+		this->numerator = decimal * denominator;
+		reduse();
+	}
 	Fraction(int integer)
 	{
 		this->integer = integer;
@@ -83,6 +93,8 @@ public:
 		cout << "Destructor:\t " << this << endl;
 	}
 	//        Operators:
+	Fraction& operator 
+
 	Fraction& operator = (const Fraction& other)
 	{
 		this->integer = other.integer;
@@ -117,6 +129,15 @@ public:
 		integer--;
 		return *this;
 	}
+	  //                TYPE-cast operators
+	explicit operator int()const
+	{
+		return Fraction(*this).to_proper().integer;
+	}
+	explicit operator double()const
+	{
+		return integer + (double)numerator / denominator;
+	}
 
 	//         Methods
 	Fraction& to_proper()     // интегрирует целую часть в числитель
@@ -142,7 +163,7 @@ public:
 
 	Fraction& reduse()
 	{
-		int more, less, rest = 0;
+		long long int more, less, rest = 0;
 		if (numerator > denominator) more = numerator, less = denominator;
 		else less = numerator, more = denominator;
 		do {
@@ -150,12 +171,13 @@ public:
 			more = less;
 			less = rest;
 		} while (rest);
-		int GSD = more;   //GCD- Greates Common Division (Наибольшее общее кратное)
+		long long int GSD = more;   //GCD- Greates Common Division (Наибольшее общее кратное)
 		numerator /= GSD;
 		denominator /= GSD;
 		return *this;
 	}
-	void print()const
+
+	std::ostream& print (std::ostream& os) const
 	{
 		if (integer) cout << integer;
 		if (numerator)
@@ -166,6 +188,7 @@ public:
 		}
 		else if (integer == 0) cout << 0;
 		cout << endl;
+		return os;
 	}
 };
 Fraction operator* (Fraction left, Fraction right)
@@ -252,10 +275,41 @@ bool operator <= (Fraction left, Fraction right)
 	return!(left < right);
 }
 
+std::ostream& operator <<(std::ostream& os, const Fraction& obj)
+{
+	return obj.print(os);
+}
+std::istream& operator >> (std::istream& is, const Fraction& obj)
+{
+	/*int integer, numerator, denominator;
+	is >> integer >> numerator >> denominator;
+	obj(integer, numerator, denominator);*/
+	int number[3] = {};
+	const int SIZE = 32;
+	char buffer[SIZE] = {};
+	char delimeters[] = "/ ()";
+	is >> buffer;
+	int n = 0;// счетчик чисел в веденной строке
+	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+		number[n++] = atoi(pch); // функция ATOI (...) ASCII-string to integer преобразует 
+	switch (n)
+	{
+	case 1: obj.get_integer(number[0]); break;
+	case 2:
+	{	obj.get_numerator(number[0]);
+	obj.get_denominator(numerator[1]);
+	}
+	break;
+	return is;
+	}
+}
 
 //#define CONSTRACTORS_CHECK
 //#define ARIFMETICAL_OPERATORS_CHECK
 // #define COMPARISON_OPERATORS
+//#define HOME_WORK_1
+//#define HOME_WORK_2
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -331,4 +385,26 @@ void main()
 	//cout << (3 == 3) << endl;  
 #endif // COMPARISON_OPERATORS
 
+
+	//(type)value;  //C-like notation (C-подобная форма записи)
+	//type(value);  // Functional notation (функциональная форма записи)
+	cout << 7 / 2 << endl;
+
+#ifdef HOME_WORK_1
+
+	Fraction B(2, 3, 4);
+	double b = B;
+	cout << b << endl;
+#endif // HOME_WORK_1
+#ifdef HOME_WORK_2
+
+	Fraction B = 2.75;
+	//B.print();
+	cout << B << endl;
+
+#endif // HOME_WORK_2
+
+	Fraction A;
+	cout << "Введите простую дробь: "; cin >> A;
+	cout << A << endl;
 }
