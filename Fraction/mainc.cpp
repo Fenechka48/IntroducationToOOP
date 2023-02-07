@@ -93,7 +93,13 @@ public:
 		cout << "Destructor:\t " << this << endl;
 	}
 	//        Operators:
-	Fraction& operator 
+	Fraction& operator()(int integer, int numerator, int denominator)
+	{
+		set_integer(integer);
+		set_numerator(numerator);
+		set_denominator(denominator);
+		return *this;
+	}
 
 	Fraction& operator = (const Fraction& other)
 	{

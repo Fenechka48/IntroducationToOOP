@@ -26,6 +26,13 @@ public:
 		delete this->str;
 		cout << "Destructor:\t" << this << endl;
 	}
+	//                TYPE-cast operators
+	explicit operator char()const
+	{
+		return String (*this);
+	}
+	
+
 	//       Methods:
 	void print() const
 		{
@@ -39,4 +46,6 @@ void main()
 	setlocale(LC_ALL, "");
 	String str1(5);
 	str1.print();
+
+	String strl("Hello")
 }
