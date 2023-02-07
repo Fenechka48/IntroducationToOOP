@@ -179,15 +179,15 @@ public:
 
 	std::ostream& print (std::ostream& os) const
 	{
-		if (integer) cout << integer;
+		if (integer)os<< integer;
 		if (numerator)
 		{
-			if (integer) cout << "(";
-			cout << numerator << "/" << denominator;
-			if (integer)cout << ")";
+			if (integer) os << "(";
+			os << numerator << "/" << denominator;
+			if (integer)os << ")";
 		}
-		else if (integer == 0) cout << 0;
-		cout << endl;
+		else if (integer == 0) os << 0;
+		//cout << endl;
 		return os;
 	}
 };
@@ -212,7 +212,7 @@ Fraction operator* (Fraction left, Fraction right)
 		left.get_numerator() * right.get_numerator(),
 		left.get_denominator() * right.get_denominator()
 
-	).to_proper().reduse();
+	).to_proper().reduce();
 }
 Fraction operator / (const Fraction& left,const Fraction& right)
 {
@@ -275,7 +275,7 @@ bool operator <= (Fraction left, Fraction right)
 	return!(left < right);
 }
 
-std::ostream& operator <<(std::ostream& os, const Fraction& obj)
+std::ostream& operator<<(std::ostream& os, const Fraction& obj)
 {
 	return obj.print(os);
 }
@@ -285,28 +285,38 @@ std::istream& operator >> (std::istream& is, const Fraction& obj)
 	is >> integer >> numerator >> denominator;
 	obj(integer, numerator, denominator);*/
 	int number[3] = {};
+
 	const int SIZE = 32;
 	char buffer[SIZE] = {};
-	char delimeters[] = "/ ()";
-	is >> buffer;
-	int n = 0;// счетчик чисел в веденной строке
+	char delimiters[] = "/ ()";
+
+	//is >> buffer;
+	is.getline(buffer, SIZE);
+
+	int n = 0;	//счетчик чисел в веденной строке
+	//https://legacy.cplusplus.com/reference/cstring/strtok/
 	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
-		number[n++] = atoi(pch); // функция ATOI (...) ASCII-string to integer преобразует 
+		number[n++] = atoi(pch);	//функция atoi(...) ASCII-string to integer преобразует строку в число, если строка является числом, т.е., содержит цифры.
+	//https://legacy.cplusplus.com/reference/cstdlib/atoi/
+
 	switch (n)
 	{
-	case 1: obj.get_integer(number[0]); break;
+	case 1:obj.set_integer(number[0]); break;
 	case 2:
-	{	obj.get_numerator(number[0]);
-	obj.get_denominator(numerator[1]);
+		obj.set_numerator(number[0]);
+		obj.set_denominator(number[1]);
+		break;
+	case 3:obj(number[0], number[1], number[2]);
 	}
-	break;
+
 	return is;
-	}
+	
 }
 
 //#define CONSTRACTORS_CHECK
 //#define ARIFMETICAL_OPERATORS_CHECK
-// #define COMPARISON_OPERATORS
+//#define COMPARISON_OPERATORS
+//#define TYPE_CONVERSIONS_BASICS
 //#define HOME_WORK_1
 //#define HOME_WORK_2
 
@@ -384,12 +394,26 @@ void main()
 	cout << (Fraction(1, 2) <= Fraction(5, 10)) << endl;
 	//cout << (3 == 3) << endl;  
 #endif // COMPARISON_OPERATORS
+#ifdef TYPE_CONVERSIONS_BASICS
 
+	//(type)value;                           //C-like notation (C-подобная форма записи)
+	//type(value);                           // Functional notation (функциональная форма записи)
+	//cout << 7. / 2 << endl;
+	int a = 2;                               // No conversions
+	double b = 3;                            // Conversion from less to more
+	int c = b;                               // Conversion from more to less with no data loss
+	int d = 4.5;                             // Conversion from more to less with data loss  
 
-	//(type)value;  //C-like notation (C-подобная форма записи)
-	//type(value);  // Functional notation (функциональная форма записи)
-	cout << 7 / 2 << endl;
+	Fraction A = 5;  // Conversion from other class   preformed by SinglArgument constructor
+	A.print();
 
+	Fraction B;
+	B = 8;           // Conversion from jther class by Assignment operator
+#endif // TYPE_CONVERSIONS_BASICS
+	Fraction A(2, 3, 4);
+	A.print();
+	int a = A;
+	cout << a << endl;
 #ifdef HOME_WORK_1
 
 	Fraction B(2, 3, 4);
