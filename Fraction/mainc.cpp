@@ -161,7 +161,7 @@ public:
 		return *this;
 	}
 
-	Fraction& reduse()
+	Fraction& reduce()
 	{
 		long long int more, less, rest = 0;
 		if (numerator > denominator) more = numerator, less = denominator;
