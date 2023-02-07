@@ -58,7 +58,7 @@ public:
 		decimal -= integer;          // убираем целую часть 
 		this->denominator = 1e+9;
 		this->numerator = decimal * denominator;
-		reduse();
+		reduce();
 	}
 	Fraction(int integer)
 	{
