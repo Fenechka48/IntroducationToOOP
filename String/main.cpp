@@ -22,7 +22,7 @@ public:
 		this->str = new char[size] {};
 		cout << "DefConstractuctor:\t" << this << endl;
 	}
-	String (const char str[])
+	String (const char* str[])
 	{
 		this->size = strlen(str);
 		this->str = new char[size] {};
