@@ -15,21 +15,46 @@ public:
 		return str;
 	}
 	//       Constructors:
+	
 	explicit String(int size = 80)
 	{
 		this->size = size;
 		this->str = new char[size] {};
 		cout << "DefConstractuctor:\t" << this << endl;
 	}
+	String (const char str[])
+	{
+		this->size = strlen(str);
+		this->str = new char[size] {};
+		for (int i = 0; i < size; i++)
+			this->str[i] = str[i];
+		cout << "Constractuctor:\t" << this << endl;
+	}
+	
+	String(const String& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+		cout << "Copy_constractor:\t " << this << endl;
+	}
 	~String()
 	{
 		delete this->str;
 		cout << "Destructor:\t" << this << endl;
 	}
-	//                TYPE-cast operators
-	explicit operator char()const
+	//    Operators
+	String& operator = (String& other)
 	{
-		return String (*this);
+		this->size = other.size;
+		this->str = other.str;
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+
+	//                TYPE-cast operators
+	explicit operator char*()const
+	{
+		return String(*this).str;
 	}
 	
 
@@ -44,8 +69,15 @@ public:
 void main()
 {
 	setlocale(LC_ALL, "");
-	String str1(5);
-	str1.print();
+	/*String str1(5);
+	str1.print();*/
 
-	String strl("Hello")
+	String str=("Hello");
+	//cout << str << endl;
+	str.print();
+
+	String str1 = ("World");
+	str1.print();
+	
+
 }

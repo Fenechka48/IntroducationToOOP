@@ -11,7 +11,7 @@ Fraction operator* (Fraction left, Fraction right);
 Fraction operator / (const Fraction& left, const Fraction& right);
 Fraction operator + (Fraction left, Fraction right);
 Fraction operator - (Fraction left, Fraction right);
-Fraction& reduse (Fraction left, Fraction right);
+Fraction& reduce (Fraction left, Fraction right);
 
 class Fraction
 {
