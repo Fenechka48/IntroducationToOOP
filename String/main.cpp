@@ -26,34 +26,25 @@ public:
 	}
 
 	//				Constructors:
-	explicit String(int size = 80)
+	explicit String(int size = 80):size(size),str(new char[size]{})
 	{
-		this->size = size;
-		this->str = new char[size] {};
 		cout << "DefConstructor:\t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str):size(strlen(str)+1),str(new char[size]{})
 	{
-		this->size = strlen(str) + 1;	//функция strlen() возвращает размер строки в символах,
-										//но в классе хранится размер строки в Байтах, т.е., с учетом терминирующего нуля.
-		this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "1ArgConstructor:" << this << endl;
 	}
-	String(const String& other)
+	String(const String& other) :size(other.size), str(new char [size] {})
 	{
 		//Deep copy - побитовое копирование
-		this->size = other.size;
-		this->str = new char[size] {};
 		for (int i = 0; i < size; i++)
 			this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << endl;
 	}
-	String(String&& other)noexcept
+	String(String&& other)noexcept:size(other.size),str(other.str)
 	{
 		//Shallow copy - поверхностное копирование
-		this->size = other.size;
-		this->str = other.str;		//Shallow copy
 		other.size = 0;
 		other.str = nullptr;		//nullptr - это указатель на ноль.
 		cout << "MoveConstructor:" << this << endl;
@@ -128,8 +119,8 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
-//#define BASE_CHECK
-
+#define BASE_CHECK
+//#define CallingConstructor
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -154,7 +145,7 @@ void main()
 	cout << str3 << endl;
 
 	String str4 = str3;	//Copy constructor
-
+	str4.print();
 	//str1 = str3;
 	//cout << str1 << endl;
 
@@ -172,6 +163,7 @@ void main()
 	------------------------------
 	*/
 #endif // BASE_CHECK
+#ifdef CallingConstructor
 
 	String str1;	//Default constructor
 	str1.print();
@@ -190,5 +182,7 @@ void main()
 	str6.print();
 	String str7{ "World" };
 	str7.print();
-	String str8{ str7 };	//Copy constructor
+	String str8{ str7 };	//Copy constructor  
+#endif // CallingConstructor
+
 }
