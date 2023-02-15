@@ -3,7 +3,8 @@ using namespace std;
 using std::cin;
 using std::cout;
 using std::endl;;
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Class declaration-объявление класса///////////////////////////////////
 class String;
 String operator+(const String& left, const String& right);
 
@@ -35,6 +36,12 @@ public:
 	//				Methods:
 	void print()const;
 };
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Class declaration End-конец объявления класса//////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Class definichion определение класса///////////////////////////////////
 int String::get_size()const
 {
 	return size;
@@ -49,7 +56,7 @@ char* String::get_str()
 }
 
 //				Constructors:
-explicit String::String(int size = 80) :size(size), str(new char[size] {})
+ String::String(int size) :size(size), str(new char[size] {})
 {
 	cout << "DefConstructor:\t" << this << endl;
 }
@@ -79,7 +86,7 @@ String::~String()
 }
 
 //				Operators:
-String&  operator=(const String& other)
+String& String::operator=(const String& other)
 {
 	//			l-value = r-value;
 	if (this == &other)return *this;
@@ -91,7 +98,7 @@ String&  operator=(const String& other)
 	cout << "CopyAssignment:\t" << this << endl;
 	return *this;
 }
-String& operator=(String&& other)
+String& String::operator=(String&& other)
 {
 	this->size = other.size;
 	this->str = other.str;
@@ -101,16 +108,16 @@ String& operator=(String&& other)
 	return *this;
 }
 
-String& operator+=(const String& other)
+String& String::operator+=(const String& other)
 {
 	return *this = *this + other;
 }
 
-const char& operator[](int i)const
+const char& String::operator[](int i)const
 {
 	return str[i];
 }
-char& operator[](int i)
+char& String::operator[](int i)
 {
 	return str[i];
 }
@@ -118,12 +125,12 @@ char& operator[](int i)
 
 
 //				Methods:
-void print()const
+void String::print()const
 {
 	cout << "Size:\t" << size << endl;
 	cout << "Str:\t" << str << endl;
 }
-};
+
 String operator+(const String& left, const String& right)
 {
 	String cat(left.get_size() + right.get_size() - 1);
@@ -141,6 +148,8 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 	return os << obj.get_str();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////// Class definichion end Конец определения класса/////////////////////////
 #define BASE_CHECK
 //#define CallingConstructor
 void main()
